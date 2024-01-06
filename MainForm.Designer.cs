@@ -34,6 +34,7 @@
             this.FormatButton = new System.Windows.Forms.Button();
             this.ExtractButton = new System.Windows.Forms.Button();
             this.InsertButton = new System.Windows.Forms.Button();
+            this.ProgressLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // FilePathButton
@@ -50,7 +51,7 @@
             // 
             this.FilePathLabel.Location = new System.Drawing.Point(12, 8);
             this.FilePathLabel.Name = "FilePathLabel";
-            this.FilePathLabel.Size = new System.Drawing.Size(616, 38);
+            this.FilePathLabel.Size = new System.Drawing.Size(616, 19);
             this.FilePathLabel.TabIndex = 1;
             this.FilePathLabel.Text = "...";
             // 
@@ -84,11 +85,19 @@
             this.InsertButton.UseVisualStyleBackColor = true;
             this.InsertButton.Click += new System.EventHandler(this.OnInsertClick);
             // 
+            // ProgressLabel
+            // 
+            this.ProgressLabel.Location = new System.Drawing.Point(12, 39);
+            this.ProgressLabel.Name = "ProgressLabel";
+            this.ProgressLabel.Size = new System.Drawing.Size(616, 19);
+            this.ProgressLabel.TabIndex = 5;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1064, 861);
+            this.Controls.Add(this.ProgressLabel);
             this.Controls.Add(this.InsertButton);
             this.Controls.Add(this.ExtractButton);
             this.Controls.Add(this.FormatButton);
@@ -99,6 +108,8 @@
             this.Text = "Translation Tool";
             this.ResumeLayout(false);
         }
+
+        private System.Windows.Forms.Label ProgressLabel;
 
         private System.Windows.Forms.Button InsertButton;
 

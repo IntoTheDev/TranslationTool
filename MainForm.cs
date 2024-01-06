@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using TranslationTool.SentenceProcessors;
@@ -42,6 +43,8 @@ namespace TranslationTool
             FormatButton.Enabled = true;
             ExtractButton.Enabled = true;
             InsertButton.Enabled = true;
+            
+            UpdateProgress();
         }
 
         private void OnFormatClick(object sender, EventArgs e)
@@ -83,7 +86,7 @@ namespace TranslationTool
 
         private void OnInsertClick(object sender, EventArgs e)
         {
-            var text = Clipboard.GetText().Replace("\"\"", "\"");
+            var text = Clipboard.GetText();//.Replace("\"\"", "\"");
             var translatedSentences = ReadSentences(text);
             var sentences = ReadSentences(File.ReadAllText(_script.FileName));
 
@@ -131,6 +134,13 @@ namespace TranslationTool
 
             WriteSentences(sentences);
         }
+        
+        private void UpdateProgress()
+        {
+            var sentences = ReadSentences(File.ReadAllText(_script.FileName));
+
+            ProgressLabel.Text = $"{sentences.Count(sentence => sentence.Translated).ToString()}/{sentences.Length.ToString()}";
+        }
 
         private Sentence[] ReadSentences(string text)
         {
@@ -140,6 +150,7 @@ namespace TranslationTool
         private void WriteSentences(Sentence[] sentences)
         {
             File.WriteAllText(_script.FileName, JsonConvert.SerializeObject(sentences, Formatting.Indented));
+            UpdateProgress();
         }
     }
 }
