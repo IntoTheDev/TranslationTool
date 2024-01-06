@@ -116,7 +116,7 @@ namespace TranslationTool
 
                     if (!validated)
                     {
-                        continue;
+                        break;
                     }
                     
                     foreach (var processor in _processors)
@@ -125,6 +125,7 @@ namespace TranslationTool
                     }
 
                     target.Translated = true;
+                    break;
                 }
             }
 
