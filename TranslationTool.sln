@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslationTool", "TranslationTool.csproj", "{101EB4EA-AA1F-458B-BC16-DBC6D1625F28}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{101EB4EA-AA1F-458B-BC16-DBC6D1625F28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{101EB4EA-AA1F-458B-BC16-DBC6D1625F28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{101EB4EA-AA1F-458B-BC16-DBC6D1625F28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{101EB4EA-AA1F-458B-BC16-DBC6D1625F28}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
