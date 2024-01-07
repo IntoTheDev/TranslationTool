@@ -98,7 +98,7 @@ namespace TranslationTool
                 {
                     ref var target = ref sentences[j];
 
-                    if (target.Id != translated.Id)
+                    if (target.Id != translated.Id || target.Translated)
                     {
                         continue;
                     }
