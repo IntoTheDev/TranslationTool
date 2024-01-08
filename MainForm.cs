@@ -87,8 +87,7 @@ namespace TranslationTool
 
         private void OnInsertClick(object sender, EventArgs e)
         {
-            var text = Clipboard.GetText();
-            var translatedSentences = ReadSentences(text);
+            var translatedSentences = ReadSentences(Clipboard.GetText());
             var sentences = ReadSentences(File.ReadAllText(_script.FileName));
 
             for (var i = 0; i < translatedSentences.Length; i++)
