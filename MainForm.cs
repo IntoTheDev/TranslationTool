@@ -98,9 +98,14 @@ namespace TranslationTool
                 {
                     ref var target = ref sentences[j];
 
-                    if (target.Id != translated.Id || target.Translated)
+                    if (target.Id != translated.Id)
                     {
                         continue;
+                    }
+
+                    if (target.Translated)
+                    {
+                        break;
                     }
 
                     var validated = true;
