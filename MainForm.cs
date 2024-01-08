@@ -17,6 +17,7 @@ namespace TranslationTool
         public MainForm()
         {
             InitializeComponent();
+            
             FormatButton.Enabled = false;
             ExtractButton.Enabled = false;
             InsertButton.Enabled = false;
@@ -86,7 +87,7 @@ namespace TranslationTool
 
         private void OnInsertClick(object sender, EventArgs e)
         {
-            var text = Clipboard.GetText();//.Replace("\"\"", "\"");
+            var text = Clipboard.GetText();
             var translatedSentences = ReadSentences(text);
             var sentences = ReadSentences(File.ReadAllText(_script.FileName));
 
