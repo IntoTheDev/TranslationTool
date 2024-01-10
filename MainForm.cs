@@ -87,57 +87,64 @@ namespace TranslationTool
 
         private void OnInsertClick(object sender, EventArgs e)
         {
-            var translatedSentences = ReadSentences(Clipboard.GetText());
-            var sentences = ReadSentences(File.ReadAllText(_script.FileName));
-
-            for (var i = 0; i < translatedSentences.Length; i++)
+            try
             {
-                ref var translated = ref translatedSentences[i];
+                var translatedSentences = ReadSentences(Clipboard.GetText());
+                var sentences = ReadSentences(File.ReadAllText(_script.FileName));
 
-                for (var j = 0; j < sentences.Length; j++)
+                for (var i = 0; i < translatedSentences.Length; i++)
                 {
-                    ref var target = ref sentences[j];
+                    ref var translated = ref translatedSentences[i];
 
-                    if (target.Id != translated.Id)
+                    for (var j = 0; j < sentences.Length; j++)
                     {
-                        continue;
-                    }
+                        ref var target = ref sentences[j];
 
-                    if (target.Translated)
-                    {
-                        break;
-                    }
-
-                    var validated = true;
-
-                    foreach (var processor in _processors)
-                    {
-                        if (processor.Validate(ref translated, ref target))
+                        if (target.Id != translated.Id)
                         {
                             continue;
                         }
 
-                        MessageBox.Show($"Sentence {translated.Id} failed at {processor.GetType()}", "Error", MessageBoxButtons.OK);
-                        validated = false;
-                        break;
-                    }
+                        if (target.Translated)
+                        {
+                            break;
+                        }
 
-                    if (!validated)
-                    {
-                        break;
-                    }
+                        var validated = true;
+
+                        foreach (var processor in _processors)
+                        {
+                            if (processor.Validate(ref translated, ref target))
+                            {
+                                continue;
+                            }
+
+                            MessageBox.Show($"Sentence {translated.Id} failed at {processor.GetType()}", "Error", MessageBoxButtons.OK);
+                            validated = false;
+                            break;
+                        }
+
+                        if (!validated)
+                        {
+                            break;
+                        }
                     
-                    foreach (var processor in _processors)
-                    {
-                        processor.Process(ref translated, ref target);
+                        foreach (var processor in _processors)
+                        {
+                            processor.Process(ref translated, ref target);
+                        }
+
+                        target.Translated = true;
+                        break;
                     }
-
-                    target.Translated = true;
-                    break;
                 }
-            }
 
-            WriteSentences(sentences);
+                WriteSentences(sentences);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.ToString(), "Exception", MessageBoxButtons.OK);
+            }
         }
         
         private void UpdateProgress()
