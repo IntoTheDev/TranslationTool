@@ -29,7 +29,6 @@ namespace TranslationTool.Log
             _builder.Append("[").Append(DateTime.Now.ToShortTimeString()).Append("] ").Append(value).AppendLine();
             _textBox.SelectionColor = _colors[(int)type];
             _textBox.AppendText(_builder.ToString());
-            _textBox.SelectionColor = _defaultColor;
             _builder.Clear();
         }
 
