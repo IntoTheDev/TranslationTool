@@ -10,7 +10,6 @@ namespace TranslationTool.Log
         private readonly RichTextBox _textBox;
         private readonly StringBuilder _builder;
         private readonly Color[] _colors;
-        private readonly Color _defaultColor;
 
         public Logger(RichTextBox textBox)
         {
@@ -21,7 +20,6 @@ namespace TranslationTool.Log
                 Color.Black,
                 Color.Red,
             };
-            _defaultColor = textBox.SelectionColor;
         }
 
         public void Log(string value, LogType type = LogType.Default)
