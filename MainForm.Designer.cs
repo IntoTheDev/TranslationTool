@@ -41,6 +41,7 @@
             // 
             // FilePathButton
             // 
+            this.FilePathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.FilePathButton.Location = new System.Drawing.Point(12, 61);
             this.FilePathButton.Name = "FilePathButton";
             this.FilePathButton.Size = new System.Drawing.Size(128, 32);
@@ -51,6 +52,7 @@
             // 
             // FilePathLabel
             // 
+            this.FilePathLabel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.FilePathLabel.Location = new System.Drawing.Point(12, 8);
             this.FilePathLabel.Name = "FilePathLabel";
             this.FilePathLabel.Size = new System.Drawing.Size(616, 19);
@@ -60,6 +62,7 @@
             // FormatButton
             // 
             this.FormatButton.Enabled = false;
+            this.FormatButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.FormatButton.Location = new System.Drawing.Point(146, 61);
             this.FormatButton.Name = "FormatButton";
             this.FormatButton.Size = new System.Drawing.Size(128, 32);
@@ -70,6 +73,7 @@
             // 
             // ExtractButton
             // 
+            this.ExtractButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ExtractButton.Location = new System.Drawing.Point(280, 61);
             this.ExtractButton.Name = "ExtractButton";
             this.ExtractButton.Size = new System.Drawing.Size(128, 32);
@@ -80,6 +84,7 @@
             // 
             // InsertButton
             // 
+            this.InsertButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.InsertButton.Location = new System.Drawing.Point(414, 61);
             this.InsertButton.Name = "InsertButton";
             this.InsertButton.Size = new System.Drawing.Size(128, 32);
@@ -90,6 +95,7 @@
             // 
             // ProgressLabel
             // 
+            this.ProgressLabel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ProgressLabel.Location = new System.Drawing.Point(12, 39);
             this.ProgressLabel.Name = "ProgressLabel";
             this.ProgressLabel.Size = new System.Drawing.Size(616, 19);
@@ -97,6 +103,7 @@
             // 
             // ClearButton
             // 
+            this.ClearButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ClearButton.Location = new System.Drawing.Point(416, 717);
             this.ClearButton.Name = "ClearButton";
             this.ClearButton.Size = new System.Drawing.Size(128, 32);
