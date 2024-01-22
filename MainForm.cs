@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Newtonsoft.Json;
+using TranslationTool.Log;
 using TranslationTool.SentenceProcessors;
 
 namespace TranslationTool
@@ -12,15 +13,12 @@ namespace TranslationTool
     {
         private OpenFileDialog _script;
         private readonly ISentenceProcessor[] _processors;
+        private readonly Logger _logger;
         private const int Count = 10;
 
         public MainForm()
         {
             InitializeComponent();
-            
-            FormatButton.Enabled = false;
-            ExtractButton.Enabled = false;
-            InsertButton.Enabled = false;
 
             _processors = new ISentenceProcessor[]
             {
@@ -28,6 +26,8 @@ namespace TranslationTool
                 new NamesProcessor(),
                 new MessageProcessor(),
             };
+
+            _logger = new Logger(RichTextBox);
         }
 
         private void OnOpenClick(object sender, EventArgs e)
@@ -40,12 +40,15 @@ namespace TranslationTool
                 return;
             }
 
-            FilePathLabel.Text = $"Loaded script: {_script.FileName}";
+            var text = $"Loaded script: {_script.FileName}";
+
+            FilePathLabel.Text = text;
             FormatButton.Enabled = true;
             ExtractButton.Enabled = true;
             InsertButton.Enabled = true;
-            
+
             UpdateProgress();
+            _logger.Log(text);
         }
 
         private void OnFormatClick(object sender, EventArgs e)
@@ -60,6 +63,7 @@ namespace TranslationTool
             }
 
             WriteSentences(sentences);
+            _logger.Log("Formatted script.");
         }
 
         private void OnExtractClick(object sender, EventArgs e)
@@ -83,70 +87,84 @@ namespace TranslationTool
             }
 
             Clipboard.SetText(JsonConvert.SerializeObject(list, Formatting.Indented));
+            _logger.Log($"Extracted {list.Count.ToString()} sentences.");
         }
 
         private void OnInsertClick(object sender, EventArgs e)
         {
+            Sentence[] translatedSentences;
+
             try
             {
-                var translatedSentences = ReadSentences(Clipboard.GetText());
-                var sentences = ReadSentences(File.ReadAllText(_script.FileName));
+                translatedSentences = ReadSentences(Clipboard.GetText());
+            }
+            catch (Exception exception)
+            {
+                _logger.Log("Failed to deserialize inserted sentences.", LogType.Error);
+                return;
+            }
+            
+            var sentences = ReadSentences(File.ReadAllText(_script.FileName));
+            var count = 0;
 
-                for (var i = 0; i < translatedSentences.Length; i++)
+            for (var i = 0; i < translatedSentences.Length; i++)
+            {
+                ref var translated = ref translatedSentences[i];
+
+                for (var j = 0; j < sentences.Length; j++)
                 {
-                    ref var translated = ref translatedSentences[i];
+                    ref var target = ref sentences[j];
 
-                    for (var j = 0; j < sentences.Length; j++)
+                    if (target.Id != translated.Id)
                     {
-                        ref var target = ref sentences[j];
+                        continue;
+                    }
 
-                        if (target.Id != translated.Id)
+                    if (target.Translated)
+                    {
+                        break;
+                    }
+
+                    var validated = true;
+
+                    foreach (var processor in _processors)
+                    {
+                        if (processor.Validate(ref translated, ref target))
                         {
                             continue;
                         }
 
-                        if (target.Translated)
-                        {
-                            break;
-                        }
-
-                        var validated = true;
-
-                        foreach (var processor in _processors)
-                        {
-                            if (processor.Validate(ref translated, ref target))
-                            {
-                                continue;
-                            }
-
-                            MessageBox.Show($"Sentence {translated.Id} failed at {processor.GetType()}", "Error", MessageBoxButtons.OK);
-                            validated = false;
-                            break;
-                        }
-
-                        if (!validated)
-                        {
-                            break;
-                        }
-                    
-                        foreach (var processor in _processors)
-                        {
-                            processor.Process(ref translated, ref target);
-                        }
-
-                        target.Translated = true;
+                        _logger.Log($"Sentence {translated.Id.ToString()} failed at {processor.GetType()}.", LogType.Error);
+                        validated = false;
                         break;
                     }
-                }
 
-                WriteSentences(sentences);
+                    if (!validated)
+                    {
+                        break;
+                    }
+
+                    foreach (var processor in _processors)
+                    {
+                        processor.Process(ref translated, ref target);
+                    }
+
+                    target.Translated = true;
+                    count++;
+                    break;
+                }
             }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.ToString(), "Exception", MessageBoxButtons.OK);
-            }
+
+            WriteSentences(sentences);
+            _logger.Log($"Inserted {count.ToString()} sentences.");
+            OnExtractClick(default, EventArgs.Empty);
         }
-        
+
+        private void OnClearClick(object sender, EventArgs e)
+        {
+            _logger.Clear();
+        }
+
         private void UpdateProgress()
         {
             var sentences = ReadSentences(File.ReadAllText(_script.FileName));
@@ -163,6 +181,24 @@ namespace TranslationTool
         {
             File.WriteAllText(_script.FileName, JsonConvert.SerializeObject(sentences, Formatting.Indented));
             UpdateProgress();
+        }
+
+        private void OnKeyDown(object sender, KeyEventArgs key)
+        {
+            if (_script == null)
+            {
+                return;
+            }
+            
+            switch (key.KeyData)
+            {
+                case Keys.C:
+                    OnExtractClick(sender, EventArgs.Empty);
+                    break;
+                case Keys.V:
+                    OnInsertClick(sender, EventArgs.Empty);
+                    break;
+            }
         }
     }
 }

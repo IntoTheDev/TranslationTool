@@ -35,6 +35,8 @@
             this.ExtractButton = new System.Windows.Forms.Button();
             this.InsertButton = new System.Windows.Forms.Button();
             this.ProgressLabel = new System.Windows.Forms.Label();
+            this.ClearButton = new System.Windows.Forms.Button();
+            this.RichTextBox = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // FilePathButton
@@ -57,6 +59,7 @@
             // 
             // FormatButton
             // 
+            this.FormatButton.Enabled = false;
             this.FormatButton.Location = new System.Drawing.Point(146, 61);
             this.FormatButton.Name = "FormatButton";
             this.FormatButton.Size = new System.Drawing.Size(128, 32);
@@ -92,22 +95,50 @@
             this.ProgressLabel.Size = new System.Drawing.Size(616, 19);
             this.ProgressLabel.TabIndex = 5;
             // 
+            // ClearButton
+            // 
+            this.ClearButton.Location = new System.Drawing.Point(416, 717);
+            this.ClearButton.Name = "ClearButton";
+            this.ClearButton.Size = new System.Drawing.Size(128, 32);
+            this.ClearButton.TabIndex = 7;
+            this.ClearButton.Text = "Clear";
+            this.ClearButton.UseVisualStyleBackColor = true;
+            this.ClearButton.Click += new System.EventHandler(this.OnClearClick);
+            // 
+            // RichTextBox
+            // 
+            this.RichTextBox.Location = new System.Drawing.Point(12, 99);
+            this.RichTextBox.Name = "RichTextBox";
+            this.RichTextBox.ReadOnly = true;
+            this.RichTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.RichTextBox.Size = new System.Drawing.Size(530, 612);
+            this.RichTextBox.TabIndex = 8;
+            this.RichTextBox.Text = "";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1064, 861);
+            this.ClientSize = new System.Drawing.Size(556, 761);
+            this.Controls.Add(this.RichTextBox);
+            this.Controls.Add(this.ClearButton);
             this.Controls.Add(this.ProgressLabel);
             this.Controls.Add(this.InsertButton);
             this.Controls.Add(this.ExtractButton);
             this.Controls.Add(this.FormatButton);
             this.Controls.Add(this.FilePathLabel);
             this.Controls.Add(this.FilePathButton);
+            this.KeyPreview = true;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Translation Tool";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDown);
             this.ResumeLayout(false);
         }
+
+        private System.Windows.Forms.RichTextBox RichTextBox;
+
+        private System.Windows.Forms.Button ClearButton;
 
         private System.Windows.Forms.Label ProgressLabel;
 
