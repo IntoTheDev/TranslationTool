@@ -49,7 +49,6 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="ISentenceProcessor.cs" />
         <Compile Include="Log\Logger.cs" />
         <Compile Include="Log\LogType.cs" />
         <Compile Include="MainForm.cs">
@@ -61,6 +60,7 @@
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Sentence.cs" />
+        <Compile Include="SentenceProcessors\ISentenceProcessor.cs" />
         <Compile Include="SentenceProcessors\MessageProcessor.cs" />
         <Compile Include="SentenceProcessors\NameProcessor.cs" />
         <Compile Include="SentenceProcessors\NamesProcessor.cs" />

@@ -1,4 +1,4 @@
-﻿namespace TranslationTool
+﻿namespace TranslationTool.SentenceProcessors
 {
     public interface ISentenceProcessor
     {
